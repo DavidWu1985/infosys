@@ -2,9 +2,8 @@ package com.rzschool.infosys.db.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -12,9 +11,13 @@ import javax.persistence.Table;
 public class School {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String schoolName;
     private String address;
     private int masterId;
+    private Date startDate;
+    private Date endDate;
+    private int isDeleted;
 
 }

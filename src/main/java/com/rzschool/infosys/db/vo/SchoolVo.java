@@ -8,4 +8,6 @@ public class SchoolVo extends School {
 
     private String masterName;
 
+    private String statusName;
+
 }
