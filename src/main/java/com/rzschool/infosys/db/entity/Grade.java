@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name = "rz_grade")
 public class Grade {
     @Id
-    private int id;
+    private Integer id;
     private String gradeName;
 
 }

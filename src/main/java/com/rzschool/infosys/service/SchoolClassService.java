@@ -1,11 +1,13 @@
 package com.rzschool.infosys.service;
 
+import com.rzschool.infosys.db.entity.Grade;
 import com.rzschool.infosys.db.entity.School;
 import com.rzschool.infosys.db.entity.SchoolClass;
 import com.rzschool.infosys.db.repository.GradeRepository;
 import com.rzschool.infosys.db.repository.SchoolClassRepository;
 import com.rzschool.infosys.db.repository.SchoolRepository;
 import com.rzschool.infosys.db.vo.SchoolClassVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +37,18 @@ public class SchoolClassService {
         return null;
     }
 
-    public List<SchoolClass> getMySchoolClasses(Integer userId) {
+    public List<SchoolClassVo> getMySchoolClasses(Integer userId) {
         List<School> schools = schoolRepository.findByMasterId(userId);
+        List<Grade> grades = gradeRepository.findAll();
         if(schools.size()> 0){
             List<SchoolClass> classes = schoolClassRepository.findBySchoolIdIn(schools.stream().map(School::getId).collect(Collectors.toList()));
-            return classes;
+            return classes.stream().map(c->{
+                SchoolClassVo vo = new SchoolClassVo();
+                BeanUtils.copyProperties(c, vo);
+                vo.setGradeName(grades.stream().filter(g->g.getId().equals(c.getGradeId())).findFirst().get().getGradeName());
+                vo.setSchoolName(schools.stream().filter(s->s.getId()==c.getSchoolId()).findFirst().get().getSchoolName());
+                return vo;
+            }).collect(Collectors.toList());
         }else{
             return new ArrayList<>();
         }

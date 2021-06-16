@@ -3,6 +3,7 @@ package com.rzschool.infosys.controller;
 
 import com.rzschool.infosys.db.entity.RzUser;
 import com.rzschool.infosys.db.entity.SchoolClass;
+import com.rzschool.infosys.db.vo.SchoolClassVo;
 import com.rzschool.infosys.result.RtnResult;
 import com.rzschool.infosys.service.SchoolClassService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class SchoolClassController {
 
 
     @GetMapping("mySchoolClasses")
-    public RtnResult<List<SchoolClass>> getMySchoolClasses(RzUser user){
+    public RtnResult<List<SchoolClassVo>> getMySchoolClasses(RzUser user){
         user = new RzUser();
         user.setId(2);
         return RtnResult.success(schoolClassService.getMySchoolClasses(user.getId()));
