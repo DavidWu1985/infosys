@@ -16,4 +16,5 @@ public interface UserRepository extends JpaRepository<RzUser, Integer> {
             "and r.role_id = :roleId", nativeQuery = true)
     List<RzUser> getRzUserByRole(@Param("roleId") int roleId);
 
+    RzUser findByAccount(String account);
 }
