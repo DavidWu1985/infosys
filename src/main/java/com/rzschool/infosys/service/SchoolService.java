@@ -45,4 +45,9 @@ public class SchoolService {
         schoolRepository.save(school);
         return true;
     }
+
+    public List<School> getMySchoolList(Integer id) {
+        List<School> schools = schoolRepository.findByMasterId(id);
+        return schools;
+    }
 }

@@ -4,6 +4,8 @@ server:
   port: 8080
 # \u5E94\u7528\u540D\u79F0
 spring:
+  jackson:
+    time-zone: GMT+8
   application:
     name: infosys
   # \u914D\u7F6E\u6570\u636E\u6E90\u4FE1\u606F

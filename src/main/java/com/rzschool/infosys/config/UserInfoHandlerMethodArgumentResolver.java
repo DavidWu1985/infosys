@@ -3,6 +3,7 @@ package com.rzschool.infosys.config;
 import com.rzschool.infosys.db.entity.RzUser;
 import com.usthe.sureness.util.JsonWebTokenUtil;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -23,6 +24,9 @@ public class UserInfoHandlerMethodArgumentResolver implements HandlerMethodArgum
     @Override
     public RzUser resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
         String token = nativeWebRequest.getHeader("auth-token");
+        if(StringUtils.isBlank(token)){
+            return null;
+        }
         RzUser user = new RzUser();
         Claims claims = JsonWebTokenUtil.parseJwt(token);
         user.setAccount(claims.get("sub").toString());

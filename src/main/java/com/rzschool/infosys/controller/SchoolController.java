@@ -1,6 +1,7 @@
 package com.rzschool.infosys.controller;
 
 import com.rzschool.infosys.db.dto.SchoolMaster;
+import com.rzschool.infosys.db.entity.RzUser;
 import com.rzschool.infosys.db.entity.School;
 import com.rzschool.infosys.db.vo.SchoolVo;
 import com.rzschool.infosys.result.RtnResult;
@@ -32,5 +33,16 @@ public class SchoolController {
     public RtnResult<Boolean> addMaster(@RequestBody SchoolMaster schoolMaster){
         return RtnResult.success(schoolService.addMaster(schoolMaster));
     }
+
+    /**
+     * 我的学校
+     */
+    @GetMapping("mylist")
+    public RtnResult<List<School>> getMySchoolList(RzUser user){
+        user = new RzUser();
+        user.setId(2);
+        return RtnResult.success(schoolService.getMySchoolList(user.getId()));
+    }
+
 
 }

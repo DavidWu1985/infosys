@@ -2,7 +2,6 @@ package com.rzschool.infosys.controller;
 
 import com.rzschool.infosys.config.SchoolAccount;
 import com.rzschool.infosys.service.AccountProvider;
-import com.usthe.sureness.provider.SurenessAccount;
 import com.usthe.sureness.util.JsonWebTokenUtil;
 import com.usthe.sureness.util.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
