@@ -25,4 +25,7 @@ spring:
 #        #\u6307\u5B9Ajpa\u7684\u81EA\u52A8\u8868\u751F\u6210\u7B56\u7565\uFF0C\u9A7C\u5CF0\u81EA\u52A8\u6620\u5C04\u4E3A\u4E0B\u5212\u7EBF\u683C\u5F0F
 #        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
 #        #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
