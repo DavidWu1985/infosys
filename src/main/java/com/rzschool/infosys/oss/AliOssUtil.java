@@ -4,6 +4,7 @@ import com.aliyun.oss.ClientConfiguration;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
+import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectResult;
 import com.rzschool.infosys.util.FileUtil;
 import com.rzschool.infosys.util.StringUtil;
@@ -16,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 阿里云存储构建类
  */
-public class AliOssBuilder {
+public class AliOssUtil {
 
     private static OssProperties ossProperties = new OssProperties();
 
@@ -67,6 +68,10 @@ public class AliOssBuilder {
         file.setName(key);
         file.setLink(fileLink(key));
         return file;
+    }
+
+    public static OSSObject downLoadFile(String name){
+        return ossClient().getObject(ossProperties.getBucketName(), name);
     }
 
     private static String fileName(String originalFilename) {
