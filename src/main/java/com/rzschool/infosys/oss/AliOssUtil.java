@@ -74,6 +74,11 @@ public class AliOssUtil {
         return ossClient().getObject(ossProperties.getBucketName(), name);
     }
 
+    public static void removeFile(String key){
+        ossClient().deleteObject(ossProperties.getBucketName(),key);
+    }
+
+
     private static String fileName(String originalFilename) {
         return "upload" + "/" + StringUtil.randomUUID() + "." + FileUtil.getFileExtension(originalFilename);
     }

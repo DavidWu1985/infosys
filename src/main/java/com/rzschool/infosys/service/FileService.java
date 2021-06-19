@@ -1,7 +1,11 @@
 package com.rzschool.infosys.service;
 
 import com.aliyun.oss.model.OSSObject;
+import com.rzschool.infosys.db.entity.OssResource;
+import com.rzschool.infosys.db.repository.OssResourceRepository;
 import com.rzschool.infosys.oss.AliOssUtil;
+import com.rzschool.infosys.oss.OssFile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -9,8 +13,17 @@ import java.io.*;
 @Service
 public class FileService {
 
-    public String putFile(String fileName, InputStream input){
-        return AliOssUtil.putFile(fileName, input).getLink();
+    @Autowired
+    private OssResourceRepository ossResourceRepository;
+
+    public OssResource putFile(String fileName, InputStream input){
+        OssFile file = AliOssUtil.putFile(fileName, input);
+        OssResource resource = new OssResource();
+        resource.setFileLink(file.getLink());
+        resource.setFileName(file.getName());
+        resource.setOriginalName(file.getOriginalName());
+        OssResource save = ossResourceRepository.save(resource);
+        return save;
     }
 
     public void downLoadFile(OutputStream outputStream) throws IOException {
@@ -26,20 +39,13 @@ public class FileService {
             bufferedOutputStream.write(buffer, 0, length );
         }
         bufferedOutputStream.flush();
-
-//        while (true) {
-//            if(bufferedInputStream.available() < 512) {
-//                while(i != -1) {
-//                    i = bufferedInputStream.read(buffer);
-//                    bufferedOutputStream.write(buffer, 0, i);
-//                }
-//                break;
-//            } else {
-//                //当文件的大小还大于512字节时
-//                bufferedInputStream.read(buffer);
-//                bufferedOutputStream.write(buffer);
-//            }
-//        }
         ossObject.close();
+    }
+
+    public boolean removeFile(Integer ossId){
+        OssResource resource = ossResourceRepository.getOne(ossId);
+        AliOssUtil.removeFile(resource.getFileName());
+        ossResourceRepository.deleteById(ossId);
+        return true;
     }
 }

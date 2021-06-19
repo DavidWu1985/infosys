@@ -1,5 +1,6 @@
 package com.rzschool.infosys.controller;
 
+import com.rzschool.infosys.db.entity.OssResource;
 import com.rzschool.infosys.result.RtnResult;
 import com.rzschool.infosys.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,14 @@ public class FileController {
     private FileService fileService;
 
     @PostMapping("put")
-    public RtnResult<String> putFile(@RequestParam MultipartFile file) throws IOException {
+    public RtnResult<OssResource> putFile(@RequestParam MultipartFile file) throws IOException {
         String filename = file.getOriginalFilename();
         return RtnResult.success(fileService.putFile(filename, file.getInputStream()));
+    }
+
+    @DeleteMapping("/remove/{id}")
+    public RtnResult<Boolean> removeFile(@PathVariable("id") int id) throws IOException {
+        return RtnResult.success(fileService.removeFile(id));
     }
 
     @GetMapping("get")
