@@ -17,18 +17,12 @@ public class ClassResource {
      * 资源所属等级
      */
     private Integer gradeId;
-    /**
-     * oss资源文件名
-     */
-    private String fileName;
-    /**
-     * 初始文件名
-     */
-    private String originalName;
+
+    private Integer lessonId;
 
     /**
      * 文件连接
      */
-    private String fileLink;
+    private Integer resourceId;
 
 }

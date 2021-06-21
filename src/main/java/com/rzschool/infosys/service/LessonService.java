@@ -42,4 +42,8 @@ public class LessonService {
         lessonRepository.deleteById(id);
         return true;
     }
+
+    public List<Lesson> getLessonsByGradeId(int gradeId) {
+        return lessonRepository.findByGradeId(gradeId);
+    }
 }

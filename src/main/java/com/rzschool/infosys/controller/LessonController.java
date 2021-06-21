@@ -32,5 +32,10 @@ public class LessonController {
         return RtnResult.success(lessonService.deleteLesson(id));
     }
 
+    @GetMapping("/listByGradeId/{gradeId}")
+    public RtnResult<List<Lesson>> getLessonsByGradeId(@PathVariable("gradeId") int gradeId){
+        return RtnResult.success(lessonService.getLessonsByGradeId(gradeId));
+    }
+
 
 }
