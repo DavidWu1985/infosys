@@ -27,11 +27,11 @@ public class AccountController {
      */
     @PostMapping("/account/auth")
     public ResponseEntity<Object> login(@RequestBody Map<String,String> requestBody) {
-        if (requestBody == null || !requestBody.containsKey("userName")
+        if (requestBody == null || !requestBody.containsKey("username")
                 || !requestBody.containsKey("password")) {
             return ResponseEntity.badRequest().build();
         }
-        String userName = requestBody.get("userName");
+        String userName = requestBody.get("username");
         String password = requestBody.get("password");
         SchoolAccount account = accountProvider.loadAccount(userName);
         if (account == null || account.isDisabledAccount() || account.isExcessiveAttempts()) {

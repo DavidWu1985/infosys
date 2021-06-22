@@ -23,7 +23,7 @@ public class UserInfoHandlerMethodArgumentResolver implements HandlerMethodArgum
 
     @Override
     public RzUser resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
-        String token = nativeWebRequest.getHeader("auth-token");
+        String token = nativeWebRequest.getHeader("Access-Token");
         if(StringUtils.isBlank(token)){
             return null;
         }
