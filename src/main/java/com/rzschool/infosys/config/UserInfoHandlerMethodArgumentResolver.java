@@ -1,6 +1,7 @@
 package com.rzschool.infosys.config;
 
 import com.rzschool.infosys.db.entity.RzUser;
+import com.rzschool.infosys.permission.subject.CustomTokenSubjectCreator;
 import com.usthe.sureness.util.JsonWebTokenUtil;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +24,7 @@ public class UserInfoHandlerMethodArgumentResolver implements HandlerMethodArgum
 
     @Override
     public RzUser resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
-        String token = nativeWebRequest.getHeader("Access-Token");
+        String token = nativeWebRequest.getHeader(CustomTokenSubjectCreator.HEADER_TOKEN);
         if(StringUtils.isBlank(token)){
             return null;
         }

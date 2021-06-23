@@ -26,7 +26,7 @@ public class AccountProvider implements SurenessAccountProvider {
         if(user == null){
             return null;
         }
-        List<String> roles = roleRepository.findByUserId(user.getId()).stream().map(RzRole::getRoleName).collect(Collectors.toList());
+        List<String> roles = roleRepository.findByUserId(user.getId()).stream().map(RzRole::getRoleCode).collect(Collectors.toList());
         SchoolAccount sAccount = SchoolAccount.builder(user.getAccount()).setPassword(user.getUserPwd()).setOwnRoles(roles).setUserId(user.getId()).build();
         return sAccount;
     }
