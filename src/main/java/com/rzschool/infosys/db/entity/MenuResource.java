@@ -19,15 +19,19 @@ public class MenuResource {
 
     private String method;
 
-    private String menuType;
+    private int menuType;
 
-    private Integer parentId;
+    private int parentId;
 
     private int isDeleted;
 
     private String action;
 
     private int excluded = 0;
+
+    private String icon;
+
+    private String path;
 
 
 }
