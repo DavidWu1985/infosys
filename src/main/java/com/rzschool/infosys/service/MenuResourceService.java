@@ -93,7 +93,7 @@ public class MenuResourceService {
             MenuNode node2 = new MenuNode();
             BeanUtils.copyProperties(m, node2);
             MenuNode node1 = nodeMap.get(node2.getParentId());
-            node1.getNodes().add(node2);
+            node1.getChildren().add(node2);
         });
         return nodesL1;
     }

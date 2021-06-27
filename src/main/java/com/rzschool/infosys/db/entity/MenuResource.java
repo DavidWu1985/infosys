@@ -13,7 +13,7 @@ public class MenuResource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String url;
+    private String viewUrl;
 
     private String menuName;
 

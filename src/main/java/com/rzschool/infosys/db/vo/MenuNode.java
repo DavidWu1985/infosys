@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 public class MenuNode extends MenuResource {
 
-    private List<MenuNode> nodes = new ArrayList<>();
+    private List<MenuNode> children = new ArrayList<>();
 
 }
