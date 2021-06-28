@@ -1,6 +1,7 @@
 package com.rzschool.infosys.controller;
 
 import com.rzschool.infosys.db.entity.RzUser;
+import com.rzschool.infosys.db.vo.UserVo;
 import com.rzschool.infosys.result.RtnResult;
 import com.rzschool.infosys.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class TeacherController {
     private TeacherService teacherService;
 
     @GetMapping("myList")
-    public RtnResult<List<RzUser>> getMyTeachers(RzUser rzUser) {
+    public RtnResult<List<UserVo>> getMyTeachers(RzUser rzUser) {
         return RtnResult.success(teacherService.getMyTeachers(rzUser.getId()));
     }
 

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface SchoolRepository extends JpaRepository<School, Integer> {
     List<School> findByMasterId(Integer id);
+
+    List<School> findAllByIdIn(List<Integer> collect);
 }
