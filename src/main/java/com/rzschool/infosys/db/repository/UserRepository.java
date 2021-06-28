@@ -17,4 +17,6 @@ public interface UserRepository extends JpaRepository<RzUser, Integer> {
     List<RzUser> getRzUserByRole(@Param("roleId") int roleId);
 
     RzUser findByAccount(String account);
+
+    List<RzUser> findAllByIdIn(List<Integer> collect);
 }

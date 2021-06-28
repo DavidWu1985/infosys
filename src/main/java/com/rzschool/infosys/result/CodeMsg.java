@@ -14,7 +14,8 @@ public class CodeMsg<T> {
     private T data;
 
     // 通用模块 5001XX
-    public static CodeMsg SUCCESS = new CodeMsg(0, "success");
+    public static CodeMsg SUCCESS = new CodeMsg(1, "success");
+    public static CodeMsg FAILURE = new CodeMsg(0, "failure");
     public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
     public static CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常：%s");
     public static CodeMsg UPLOAD_FAILED = new CodeMsg(500102, "文件上传失败");

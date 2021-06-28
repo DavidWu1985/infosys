@@ -1,5 +1,6 @@
 package com.rzschool.infosys.controller;
 
+import com.rzschool.infosys.db.dto.UserDto;
 import com.rzschool.infosys.db.entity.RzUser;
 import com.rzschool.infosys.db.vo.UserVo;
 import com.rzschool.infosys.result.RtnResult;
@@ -18,9 +19,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("schoolMaster")
-    public RtnResult<Boolean> addSchoolMaster(@RequestBody RzUser rzUser){
+    public RtnResult<Boolean> addSchoolMaster(@RequestBody UserDto rzUser){
         rzUser.setUserPwd("123456");
-        return RtnResult.success(userService.save(rzUser));
+        return RtnResult.success(userService.addSchoolMaster(rzUser));
     }
 
     @GetMapping("schoolMaster")
@@ -29,5 +30,10 @@ public class UserController {
     }
 
 
+    @PostMapping("teacher")
+    public RtnResult<Boolean> addTeacher(@RequestBody UserDto teacher){
+        teacher.setUserPwd("123456");
+        return RtnResult.success(userService.saveTeacher(teacher));
 
+    }
 }
