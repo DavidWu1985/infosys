@@ -2,6 +2,7 @@ package com.rzschool.infosys.db.repository;
 
 
 import com.rzschool.infosys.db.entity.RzUser;
+import com.rzschool.infosys.db.entity.ClassTeacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +20,7 @@ public interface UserRepository extends JpaRepository<RzUser, Integer> {
     RzUser findByAccount(String account);
 
     List<RzUser> findAllByIdIn(List<Integer> collect);
+
+    @Query(value = "select u from RzUser u, ClassTeacher t where u.id = t.userId and t.classId = :classId and u.isDeleted = 0")
+    List<RzUser> getClassTeachers(@Param("classId") int classId);
 }
