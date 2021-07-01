@@ -1,13 +1,7 @@
 package com.rzschool.infosys.service;
 
-import com.rzschool.infosys.db.entity.ClassTeacher;
-import com.rzschool.infosys.db.entity.RzUser;
-import com.rzschool.infosys.db.entity.School;
-import com.rzschool.infosys.db.entity.SchoolTeacher;
-import com.rzschool.infosys.db.repository.ClassTeacherRepository;
-import com.rzschool.infosys.db.repository.SchoolRepository;
-import com.rzschool.infosys.db.repository.SchoolTeacherRepository;
-import com.rzschool.infosys.db.repository.UserRepository;
+import com.rzschool.infosys.db.entity.*;
+import com.rzschool.infosys.db.repository.*;
 import com.rzschool.infosys.db.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +26,15 @@ public class TeacherService {
 
     @Autowired
     private ClassTeacherRepository classTeacherRepository;
+
+    @Autowired
+    private TeacherClassLessonRepository teacherClassLessonRepository;
+
+    @Autowired
+    private LessonRepository lessonRepository;
+
+    @Autowired
+    private SchoolClassRepository schoolClassRepository;
 
     public List<UserVo> getMyTeachers(Integer userId) {
         List<SchoolTeacher> schools = schoolTeacherRepository.findByUserId(userId);
@@ -62,12 +65,30 @@ public class TeacherService {
             return true;
         }
         classTeacherRepository.save(teacher);
+        SchoolClass klz = schoolClassRepository.getOne(teacher.getClassId());
+        List<Lesson> lessons = lessonRepository.findByGradeId(klz.getGradeId());
+        List<TeacherClassLesson> tcls = lessons.stream().map(l->{
+            TeacherClassLesson tcl = new TeacherClassLesson();
+            tcl.setClassId(teacher.getClassId());
+            tcl.setLessonId(l.getId());
+            tcl.setUserId(teacher.getUserId());
+            return tcl;
+        }).collect(Collectors.toList());
+        teacherClassLessonRepository.saveAll(tcls);
         return true;
     }
 
+    /**
+     * 删除教师，删除相应的课程
+     * @param id
+     * @return
+     */
     @Transactional
     public Boolean removeClassTeacher(int id) {
+        ClassTeacher klzTeacher = classTeacherRepository.getOne(id);
         classTeacherRepository.deleteById(id);
+        teacherClassLessonRepository.deleteTeacherLessons(klzTeacher.getClassId(), klzTeacher.getUserId());
         return true;
     }
+
 }

@@ -1,6 +1,8 @@
 package com.rzschool.infosys.controller;
 
 import com.rzschool.infosys.db.entity.Lesson;
+import com.rzschool.infosys.db.entity.RzUser;
+import com.rzschool.infosys.db.entity.TeacherClassLesson;
 import com.rzschool.infosys.db.vo.LessonVo;
 import com.rzschool.infosys.result.RtnResult;
 import com.rzschool.infosys.service.LessonService;
@@ -21,7 +23,10 @@ public class LessonController {
         return RtnResult.success(lessonService.addLesson(lesson));
     }
 
-
+    /**
+     * 管理端课程列表
+     * @return
+     */
     @GetMapping("/list")
     public RtnResult<List<LessonVo>> getLessons(){
         return RtnResult.success(lessonService.getLessons());
@@ -37,5 +42,30 @@ public class LessonController {
         return RtnResult.success(lessonService.getLessonsByGradeId(gradeId));
     }
 
+
+    /**
+     * 教师根据classId 获取相应课程
+     * @param user
+     * @param classId
+     * @return
+     */
+    @GetMapping("/myLessons/{classId}")
+    public RtnResult<List<LessonVo>> getMyLessonsByClassId(RzUser user, @PathVariable("classId") int classId){
+        return RtnResult.success(lessonService.getMyLessonsByClassId(user.getId(), classId));
+    }
+
+    /**
+     * 给老师分配课程
+     */
+    @PostMapping("allocate")
+    public RtnResult<Boolean> allocateLesson(@RequestBody TeacherClassLesson tcl){
+        return RtnResult.success(lessonService.allocateLesson(tcl));
+    }
+
+
+    @DeleteMapping("teacher/{id}")
+    public RtnResult<Boolean> deleteLessonTeacher(@PathVariable("id") int id){
+        return RtnResult.success(lessonService.deleteLessonTeacher(id));
+    }
 
 }

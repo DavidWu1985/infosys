@@ -2,6 +2,7 @@ package com.rzschool.infosys.controller;
 
 import com.rzschool.infosys.db.entity.ClassTeacher;
 import com.rzschool.infosys.db.entity.RzUser;
+import com.rzschool.infosys.db.entity.SchoolClass;
 import com.rzschool.infosys.db.vo.UserVo;
 import com.rzschool.infosys.result.RtnResult;
 import com.rzschool.infosys.service.TeacherService;
@@ -27,6 +28,11 @@ public class TeacherController {
         return RtnResult.success(teacherService.getClassTeachers(classId));
     }
 
+    /**
+     * 班级分配教师
+     * @param teacher
+     * @return
+     */
     @PostMapping("class_teacher")
     public RtnResult<Boolean> addClassTeacher(@RequestBody ClassTeacher teacher){
         return RtnResult.success(teacherService.addClassTeacher(teacher));

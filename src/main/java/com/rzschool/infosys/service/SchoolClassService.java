@@ -68,6 +68,11 @@ public class SchoolClassService {
     }
 
     public List<SchoolClass> getClassBySchoolId(int schoolId) {
-        return schoolClassRepository.findAllBySchoolId(schoolId);
+        return schoolClassRepository.findAllBySchoolIdOrderByIdDesc(schoolId);
+    }
+
+    public List<SchoolClass> getMyClassBySchoolId(int schoolId, Integer userId) {
+        return schoolClassRepository.getMyClassBySchoolId(schoolId, userId);
+
     }
 }

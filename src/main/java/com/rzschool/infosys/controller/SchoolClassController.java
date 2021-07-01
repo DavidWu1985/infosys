@@ -38,9 +38,25 @@ public class SchoolClassController {
         return RtnResult.success(schoolClassService.classAddStudent(student));
     }
 
-    @GetMapping("myClass/{schoolId}")
+    /**
+     * 获取学校的班级
+     * @param schoolId
+     * @return
+     */
+    @GetMapping("allClass/{schoolId}")
     public RtnResult<List<SchoolClass>> getClassBySchoolId(@PathVariable("schoolId") int schoolId){
         return RtnResult.success(schoolClassService.getClassBySchoolId(schoolId));
+    }
+
+    /**
+     * 获取的我课程
+     * @param schoolId
+     * @param user
+     * @return
+     */
+    @GetMapping("myClass/{schoolId}")
+    public RtnResult<List<SchoolClass>> getMyClass(@PathVariable("schoolId") int schoolId, RzUser user){
+        return RtnResult.success(schoolClassService.getMyClassBySchoolId(schoolId, user.getId()));
     }
 
 
