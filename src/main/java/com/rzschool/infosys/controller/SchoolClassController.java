@@ -3,6 +3,7 @@ package com.rzschool.infosys.controller;
 
 import com.rzschool.infosys.db.entity.RzUser;
 import com.rzschool.infosys.db.entity.SchoolClass;
+import com.rzschool.infosys.db.entity.Student;
 import com.rzschool.infosys.db.vo.SchoolClassVo;
 import com.rzschool.infosys.result.RtnResult;
 import com.rzschool.infosys.service.SchoolClassService;
@@ -26,11 +27,21 @@ public class SchoolClassController {
     }
 
 
-    @GetMapping("mySchoolClasses")
+    @GetMapping("allMyClasses")
     public RtnResult<List<SchoolClassVo>> getMySchoolClasses(RzUser user){
-        user = new RzUser();
-        user.setId(2);
         return RtnResult.success(schoolClassService.getMySchoolClasses(user.getId()));
     }
+
+
+    @PostMapping("add_student")
+    public RtnResult<Boolean> classAddStudent(@RequestBody Student student){
+        return RtnResult.success(schoolClassService.classAddStudent(student));
+    }
+
+    @GetMapping("myClass/{schoolId}")
+    public RtnResult<List<SchoolClass>> getClassBySchoolId(@PathVariable("schoolId") int schoolId){
+        return RtnResult.success(schoolClassService.getClassBySchoolId(schoolId));
+    }
+
 
 }

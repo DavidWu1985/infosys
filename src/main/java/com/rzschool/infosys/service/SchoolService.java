@@ -27,8 +27,8 @@ public class SchoolService {
     @Autowired
     private SchoolTeacherRepository schoolTeacherRepository;
 
-    public List<SchoolVo> getSchoolList(){
-       List<School> schools = schoolRepository.findAll();
+    public List<SchoolVo> getSchoolList(int userId){
+       List<School> schools = schoolRepository.findAllByUserId(userId);
        return schools.stream().map(s->{
            SchoolVo vo = new SchoolVo();
            BeanUtils.copyProperties(s, vo);
@@ -58,8 +58,8 @@ public class SchoolService {
         return true;
     }
 
-    public List<School> getMySchoolList(Integer id) {
-        List<School> schools = schoolRepository.findByMasterId(id);
+    public List<School> getMySchoolList(Integer userId) {
+        List<School> schools = schoolRepository.findAllByUserId(userId);
         return schools;
     }
 }

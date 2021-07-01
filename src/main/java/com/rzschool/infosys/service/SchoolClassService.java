@@ -3,9 +3,11 @@ package com.rzschool.infosys.service;
 import com.rzschool.infosys.db.entity.Grade;
 import com.rzschool.infosys.db.entity.School;
 import com.rzschool.infosys.db.entity.SchoolClass;
+import com.rzschool.infosys.db.entity.Student;
 import com.rzschool.infosys.db.repository.GradeRepository;
 import com.rzschool.infosys.db.repository.SchoolClassRepository;
 import com.rzschool.infosys.db.repository.SchoolRepository;
+import com.rzschool.infosys.db.repository.StudentRepository;
 import com.rzschool.infosys.db.vo.SchoolClassVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class SchoolClassService {
 
     @Autowired
     private GradeRepository gradeRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
 
     public Boolean addClass(SchoolClass schoolClass) {
@@ -53,5 +58,16 @@ public class SchoolClassService {
             return new ArrayList<>();
         }
 
+    }
+
+    public boolean classAddStudent(Student student) {
+        Student saved = studentRepository.getOne(student.getId());
+        saved.setClassId(student.getClassId());
+        studentRepository.save(saved);
+        return true;
+    }
+
+    public List<SchoolClass> getClassBySchoolId(int schoolId) {
+        return schoolClassRepository.findAllBySchoolId(schoolId);
     }
 }

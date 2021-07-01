@@ -20,8 +20,8 @@ public class SchoolController {
     private SchoolService schoolService;
 
     @GetMapping("list")
-    public RtnResult<List<SchoolVo>> getSchoolList(){
-        return RtnResult.success(schoolService.getSchoolList());
+    public RtnResult<List<SchoolVo>> getSchoolList(RzUser user){
+        return RtnResult.success(schoolService.getSchoolList(user.getId()));
     }
 
     @PostMapping("add")
