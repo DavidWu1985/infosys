@@ -13,4 +13,6 @@ public interface ClassResourceRepository extends JpaRepository<ClassResource, In
             "where r.grade_id = g.id and r.lesson_id = l.id and r.resource_id = o.id\n" +
             "order by r.grade_id asc, r.lesson_id ASC", nativeQuery = true)
     List<Object[]> getResourcesByGradeAndLesson();
+
+    void deleteAllByLessonId(int id);
 }

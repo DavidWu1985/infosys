@@ -2,16 +2,14 @@ package com.rzschool.infosys.service;
 
 import com.rzschool.infosys.db.dto.ClassResourceDto;
 import com.rzschool.infosys.db.entity.ClassResource;
-import com.rzschool.infosys.db.entity.Grade;
-import com.rzschool.infosys.db.entity.Lesson;
 import com.rzschool.infosys.db.entity.OssResource;
 import com.rzschool.infosys.db.repository.ClassResourceRepository;
+import com.rzschool.infosys.db.repository.OssResourceRepository;
 import com.rzschool.infosys.db.vo.ClassResourceVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +21,9 @@ public class ClassResourceService {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private OssResourceRepository ossResourceRepository;
 
     public boolean addClassResource(ClassResourceDto resource){
         resource.getFileIds().forEach(r->{
@@ -55,5 +56,11 @@ public class ClassResourceService {
         classResourceRepository.deleteById(id);
         fileService.removeFile(resource.getResourceId());
         return true;
+    }
+
+    public List<OssResource> getResourceByLessonId(int lessonId) {
+        //TODO 此处应加强权限判断
+        return ossResourceRepository.getResourceByLessonId(lessonId);
+
     }
 }

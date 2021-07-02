@@ -2,7 +2,9 @@ package com.rzschool.infosys.controller;
 
 import com.rzschool.infosys.db.dto.ClassResourceDto;
 import com.rzschool.infosys.db.entity.ClassResource;
+import com.rzschool.infosys.db.entity.OssResource;
 import com.rzschool.infosys.db.vo.ClassResourceVo;
+import com.rzschool.infosys.oss.OssFile;
 import com.rzschool.infosys.result.RtnResult;
 import com.rzschool.infosys.service.ClassResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,4 +35,8 @@ public class ClassResourceController {
         return RtnResult.success(classResourceService.removeLessonResource(id));
     }
 
+    @GetMapping("/list/{lessonId}")
+    public RtnResult<List<OssResource>> getResourceByLessonId(@PathVariable("lessonId") int lessonId){
+        return RtnResult.success(classResourceService.getResourceByLessonId(lessonId));
+    }
 }

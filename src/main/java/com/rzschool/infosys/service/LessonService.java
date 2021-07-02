@@ -3,6 +3,7 @@ package com.rzschool.infosys.service;
 import com.rzschool.infosys.db.entity.Grade;
 import com.rzschool.infosys.db.entity.Lesson;
 import com.rzschool.infosys.db.entity.TeacherClassLesson;
+import com.rzschool.infosys.db.repository.ClassResourceRepository;
 import com.rzschool.infosys.db.repository.GradeRepository;
 import com.rzschool.infosys.db.repository.LessonRepository;
 import com.rzschool.infosys.db.repository.TeacherClassLessonRepository;
@@ -27,6 +28,9 @@ public class LessonService {
     @Autowired
     private TeacherClassLessonRepository teacherClassLessonRepository;
 
+    @Autowired
+    private ClassResourceRepository classResourceRepository;
+
     public boolean addLesson(Lesson lesson){
         lessonRepository.save(lesson);
         return true;
@@ -44,9 +48,16 @@ public class LessonService {
     }
 
 
+    /**
+     * 删除课程，删除相应的教师和资源关联关系
+     * @param id
+     * @return
+     */
     @Transactional
     public Boolean deleteLesson(int id) {
         lessonRepository.deleteById(id);
+        classResourceRepository.deleteAllByLessonId(id);
+        teacherClassLessonRepository.deleteAllByLessonId(id);
         return true;
     }
 
@@ -65,14 +76,23 @@ public class LessonService {
             vo.setEndTime(tcl.getEndTime());
             return vo;
         }).collect(Collectors.toList());
-
     }
 
+    /**
+     * 给课程分配教师
+     * @param tcl
+     * @return
+     */
     public boolean allocateLesson(TeacherClassLesson tcl) {
         teacherClassLessonRepository.save(tcl);
         return true;
     }
 
+    /**
+     * 删除课程对应的教师
+     * @param id
+     * @return
+     */
     @Transactional
     public boolean deleteLessonTeacher(int id) {
         teacherClassLessonRepository.deleteById(id);
