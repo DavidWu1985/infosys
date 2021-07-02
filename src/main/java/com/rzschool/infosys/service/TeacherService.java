@@ -2,6 +2,7 @@ package com.rzschool.infosys.service;
 
 import com.rzschool.infosys.db.entity.*;
 import com.rzschool.infosys.db.repository.*;
+import com.rzschool.infosys.db.vo.LessonTeacher;
 import com.rzschool.infosys.db.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,4 +92,17 @@ public class TeacherService {
         return true;
     }
 
+    public List<LessonTeacher> getLessonTeacherByLessonId(int lessonId) {
+        List<Object[]> objects = userRepository.getLessonTeacherByLessonId(lessonId);
+        return objects.stream().map(o->{
+            LessonTeacher teacher = new LessonTeacher();
+            teacher.setUserName((String) o[0]);
+            teacher.setTeacherLessonId((Integer) o[1]);
+            return teacher;
+        }).collect(Collectors.toList());
+    }
+
+    public List<RzUser> getSchoolTeacherBySchoolId(int schoolId) {
+        return userRepository.getSchoolTeacherBySchoolId(schoolId);
+    }
 }

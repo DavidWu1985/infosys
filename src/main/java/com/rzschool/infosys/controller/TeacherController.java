@@ -2,7 +2,7 @@ package com.rzschool.infosys.controller;
 
 import com.rzschool.infosys.db.entity.ClassTeacher;
 import com.rzschool.infosys.db.entity.RzUser;
-import com.rzschool.infosys.db.entity.SchoolClass;
+import com.rzschool.infosys.db.vo.LessonTeacher;
 import com.rzschool.infosys.db.vo.UserVo;
 import com.rzschool.infosys.result.RtnResult;
 import com.rzschool.infosys.service.TeacherService;
@@ -44,4 +44,13 @@ public class TeacherController {
         return RtnResult.success(teacherService.removeClassTeacher(id));
     }
 
+    @GetMapping("/lesson_teachers/{lessonId}")
+    public RtnResult<List<LessonTeacher>> getLessonTeacherByLessonId(@PathVariable("lessonId") int lessonId){
+        return RtnResult.success(teacherService.getLessonTeacherByLessonId(lessonId));
+    }
+
+    @GetMapping("/school_teachers/{schoolId}")
+    public RtnResult<List<RzUser>> getSchoolTeacherBySchoolId(@PathVariable("schoolId") int schoolId){
+        return RtnResult.success(teacherService.getSchoolTeacherBySchoolId(schoolId));
+    }
 }
