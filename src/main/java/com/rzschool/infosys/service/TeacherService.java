@@ -93,11 +93,12 @@ public class TeacherService {
     }
 
     public List<LessonTeacher> getLessonTeacherByLessonId(int lessonId) {
-        List<Object[]> objects = userRepository.getLessonTeacherByLessonId(lessonId);
-        return objects.stream().map(o->{
+        List<TeacherClassLesson> lessons = teacherClassLessonRepository.findAllByLessonId(lessonId);
+        List<RzUser> users = userRepository.findAllById(lessons.stream().map(TeacherClassLesson::getUserId).collect(Collectors.toList()));
+        return lessons.stream().map(l->{
             LessonTeacher teacher = new LessonTeacher();
-            teacher.setUserName((String) o[0]);
-            teacher.setTeacherLessonId((Integer) o[1]);
+            BeanUtils.copyProperties(l, teacher);
+            teacher.setUserName(users.stream().filter(u->{return u.getId().equals(l.getUserId());}).findFirst().get().getUserName());
             return teacher;
         }).collect(Collectors.toList());
     }

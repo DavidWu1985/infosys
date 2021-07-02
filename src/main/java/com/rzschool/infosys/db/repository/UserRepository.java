@@ -23,8 +23,8 @@ public interface UserRepository extends JpaRepository<RzUser, Integer> {
     List<RzUser> getClassTeachers(@Param("classId") int classId);
 
 
-    @Query(value = "select u.userName, t.id from RzUser u, TeacherClassLesson t where u.id = t.userId and t.lessonId = :lessonId")
-    List<Object[]> getLessonTeacherByLessonId(@Param("lessonId") int lessonId);
+//    @Query(value = "select u.userName, t.id from RzUser u, TeacherClassLesson t where u.id = t.userId and t.lessonId = :lessonId")
+//    List<Object[]> getLessonTeacherByLessonId(@Param("lessonId") int lessonId);
 
     @Query(value = "select u from RzUser u, SchoolTeacher s where u.id = s.userId and s.schoolId = :schoolId")
     List<RzUser> getSchoolTeacherBySchoolId(@Param("schoolId") int schoolId);

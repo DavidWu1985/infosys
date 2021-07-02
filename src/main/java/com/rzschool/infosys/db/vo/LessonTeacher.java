@@ -1,11 +1,11 @@
 package com.rzschool.infosys.db.vo;
 
-import com.rzschool.infosys.db.entity.RzUser;
+import com.rzschool.infosys.db.entity.TeacherClassLesson;
 import lombok.Data;
 
 @Data
-public class LessonTeacher extends RzUser {
+public class LessonTeacher extends TeacherClassLesson {
 
-    private int teacherLessonId;
+    private String userName;
 
 }

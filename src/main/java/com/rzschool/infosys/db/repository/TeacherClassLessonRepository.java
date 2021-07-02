@@ -15,4 +15,6 @@ public interface TeacherClassLessonRepository extends JpaRepository<TeacherClass
     List<TeacherClassLesson> findAllByUserIdAndClassId(int userId, int classId);
 
     void deleteAllByLessonId(int id);
+
+    List<TeacherClassLesson> findAllByLessonId(int lessonId);
 }
