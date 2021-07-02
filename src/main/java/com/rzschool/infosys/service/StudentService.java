@@ -5,6 +5,7 @@ import com.rzschool.infosys.db.repository.StudentRepository;
 import com.rzschool.infosys.db.vo.StudentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,5 +26,11 @@ public class StudentService {
 
     public List<Student> getMyClassStudents(int classId) {
         return studentRepository.findAllByClassId(classId);
+    }
+
+    @Transactional
+    public Boolean removeStudent(int studentId) {
+        studentRepository.deleteById(studentId);
+        return true;
     }
 }

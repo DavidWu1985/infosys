@@ -34,4 +34,9 @@ public class StudentController {
     public RtnResult<List<Student>> getMyClassStudents(@PathVariable("classId") int classId){
         return RtnResult.success(studentService.getMyClassStudents(classId));
     }
+
+    @DeleteMapping("remove/{studentId}")
+    public RtnResult<Boolean> removeStudent(@PathVariable("studentId") int studentId){
+        return RtnResult.success(studentService.removeStudent(studentId));
+    }
 }
