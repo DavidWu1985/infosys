@@ -2,6 +2,7 @@ package com.rzschool.infosys.service;
 
 import com.rzschool.infosys.db.entity.*;
 import com.rzschool.infosys.db.repository.*;
+import com.rzschool.infosys.db.vo.KlzTeacher;
 import com.rzschool.infosys.db.vo.LessonTeacher;
 import com.rzschool.infosys.db.vo.UserVo;
 import org.springframework.beans.BeanUtils;
@@ -56,10 +57,21 @@ public class TeacherService {
         }
     }
 
-    public List<RzUser> getClassTeachers(int classId) {
-        return userRepository.getClassTeachers(classId);
+    public List<KlzTeacher> getClassTeachers(int classId) {
+        List<ClassTeacher> teachers = classTeacherRepository.findAllByClassId(classId);
+        List<RzUser> users = userRepository.findAllById(teachers.stream().map(ClassTeacher::getUserId).collect(Collectors.toList()));
+        return teachers.stream().map(l->{
+            KlzTeacher teacher = new KlzTeacher();
+            BeanUtils.copyProperties(l, teacher);
+            RzUser user = users.stream().filter(u->{return u.getId().equals(l.getUserId());}).findFirst().get();
+            teacher.setUserName(user.getUserName());
+            teacher.setAccount(user.getAccount());
+            return teacher;
+        }).collect(Collectors.toList());
     }
 
+
+    //班级增加教师，需要给相应的教师增加相应的课程
     public Boolean addClassTeacher(ClassTeacher teacher) {
         ClassTeacher saved = classTeacherRepository.findByUserIdAndClassId(teacher.getUserId(), teacher.getClassId());
         if(saved != null){
@@ -88,7 +100,7 @@ public class TeacherService {
     public Boolean removeClassTeacher(int id) {
         ClassTeacher klzTeacher = classTeacherRepository.getOne(id);
         classTeacherRepository.deleteById(id);
-        teacherClassLessonRepository.deleteTeacherLessons(klzTeacher.getClassId(), klzTeacher.getUserId());
+        teacherClassLessonRepository.deleteTeacherClassLessonByClassIdAndUserId(klzTeacher.getClassId(), klzTeacher.getUserId());
         return true;
     }
 

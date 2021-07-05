@@ -58,6 +58,11 @@ public class SchoolClassController {
     public RtnResult<List<SchoolClass>> getMyClass(@PathVariable("schoolId") int schoolId, RzUser user){
         return RtnResult.success(schoolClassService.getMyClassBySchoolId(schoolId, user.getId()));
     }
+    
+    @DeleteMapping("remove/{classId}")
+    public RtnResult<Boolean> removeClassById(@PathVariable("classId") int classId){
+        return RtnResult.success(schoolClassService.removeClassById(classId));
+    }
 
 
 }

@@ -1,17 +1,12 @@
 package com.rzschool.infosys.service;
 
-import com.rzschool.infosys.db.entity.Grade;
-import com.rzschool.infosys.db.entity.School;
-import com.rzschool.infosys.db.entity.SchoolClass;
-import com.rzschool.infosys.db.entity.Student;
-import com.rzschool.infosys.db.repository.GradeRepository;
-import com.rzschool.infosys.db.repository.SchoolClassRepository;
-import com.rzschool.infosys.db.repository.SchoolRepository;
-import com.rzschool.infosys.db.repository.StudentRepository;
+import com.rzschool.infosys.db.entity.*;
+import com.rzschool.infosys.db.repository.*;
 import com.rzschool.infosys.db.vo.SchoolClassVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +27,45 @@ public class SchoolClassService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private ClassTeacherRepository classTeacherRepository;
 
+    @Autowired
+    private TeacherClassLessonRepository teacherClassLessonRepository;
+
+    @Autowired
+    private LessonRepository lessonRepository;
+
+    @Transactional
     public Boolean addClass(SchoolClass schoolClass) {
+        if(schoolClass.getId() != null){
+            SchoolClass saved = schoolClassRepository.getOne(schoolClass.getId());
+            //如果班级等级不相等，处理班级课程
+            if(!saved.getGradeId().equals(schoolClass.getGradeId())){
+                //先删除课程
+                teacherClassLessonRepository.deleteAllByClassId(schoolClass.getId());
+                //给教师增加课程
+                List<ClassTeacher> teachers = classTeacherRepository.findAllByClassId(schoolClass.getId());
+                List<Lesson> lessons = lessonRepository.findByGradeId(schoolClass.getGradeId());
+                List<TeacherClassLesson> tcls = new ArrayList<>();
+                teachers.forEach(t-> {
+                    lessons.forEach(l-> {
+                        TeacherClassLesson tcl = new TeacherClassLesson();
+                        tcl.setClassId(schoolClass.getId());
+                        tcl.setLessonId(l.getId());
+                        tcl.setUserId(t.getUserId());
+                        tcls.add(tcl);
+                    });
+                });
+                if(tcls.size() > 0){
+                    teacherClassLessonRepository.saveAll(tcls);
+                }
+            }
+        }
         schoolClassRepository.save(schoolClass);
         return true;
     }
 
-    public List<SchoolClassVo> getSchoolClass(){
-        return null;
-    }
 
     public List<SchoolClassVo> getMySchoolClasses(Integer userId) {
         List<School> schools = schoolRepository.findByMasterId(userId);
@@ -73,6 +98,15 @@ public class SchoolClassService {
 
     public List<SchoolClass> getMyClassBySchoolId(int schoolId, Integer userId) {
         return schoolClassRepository.getMyClassBySchoolId(schoolId, userId);
+
+    }
+
+    public Boolean removeClassById(int classId) {
+        schoolClassRepository.deleteById(classId);
+        classTeacherRepository.deleteAllByClassId(classId);
+        teacherClassLessonRepository.deleteAllByClassId(classId);
+        return true;
+
 
     }
 }

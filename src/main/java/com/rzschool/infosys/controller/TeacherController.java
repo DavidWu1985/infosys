@@ -2,6 +2,7 @@ package com.rzschool.infosys.controller;
 
 import com.rzschool.infosys.db.entity.ClassTeacher;
 import com.rzschool.infosys.db.entity.RzUser;
+import com.rzschool.infosys.db.vo.KlzTeacher;
 import com.rzschool.infosys.db.vo.LessonTeacher;
 import com.rzschool.infosys.db.vo.UserVo;
 import com.rzschool.infosys.result.RtnResult;
@@ -24,7 +25,7 @@ public class TeacherController {
     }
 
     @GetMapping("class_teachers/{classId}")
-    public RtnResult<List<RzUser>> getClassTeachers(@PathVariable("classId") int classId) {
+    public RtnResult<List<KlzTeacher>> getClassTeachers(@PathVariable("classId") int classId) {
         return RtnResult.success(teacherService.getClassTeachers(classId));
     }
 
